@@ -17,17 +17,24 @@ export class SignUpPage implements OnInit {
       Validators.minLength(6),
       Validators.pattern(/^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9]).*$/)
     ]),
-     name: new FormControl('', [Validators.required, Validators.minLength(4)]),
-     telf: new FormControl('', [Validators.required, Validators.minLength(8)]),
-    // sex: new FormControl('', [Validators.required]),
-    // country: new FormControl('', [Validators.required])
-  })
+    repeatPassword: new FormControl('', [Validators.required]),
+    name: new FormControl('', [Validators.required, Validators.minLength(4)]),
+    telf: new FormControl('', [Validators.required, Validators.minLength(8)]),
+    sex: new FormControl('', [Validators.required]),
+  }, { validators: this.passwordsMatch })
 
   //Services
   firebaseSvc = inject(FirebaseService);
   utilsSvc = inject(UtilsService);
 
   ngOnInit() {
+  }
+
+  passwordsMatch(group: FormGroup) {
+    const password = group.get('password').value;
+    const repeatPassword = group.get('repeatPassword').value;
+
+    return password === repeatPassword ? null : { notSame: true };
   }
 
   async submit(){
@@ -56,7 +63,4 @@ export class SignUpPage implements OnInit {
       })
     }
   }
-
 }
-
-

@@ -2,5 +2,7 @@ export interface User{
     uid: string,
     email: string,
     password: string,
-    name: string
+    name: string,
+    telf: string,
+    sex: string,
 }

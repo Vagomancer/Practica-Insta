@@ -1,21 +1,17 @@
 <app-header title="Registro"></app-header>
 
-
-
 <ion-content class="ion-padding">
     <form [formGroup]="form" class="auth-form" (ngSubmit)="submit()" (keypress.enter)="submit()">
         <!-- Logo -->
         <app-logo></app-logo>
 
-
-        <!-- Nmae -->
+        <!-- Name -->
         <app-custom-input icon="person-outline" autocomplete="name" [control]="form.controls.name" type="text" label="nombre"></app-custom-input>
 
         <div class="validators" *ngIf="form.controls.name.errors && form.controls.name.touched">
             <div *ngIf="form.controls.name.errors?.['required']">El correo es requerido.</div>
             <div *ngIf="form.controls.name.errors?.['minlenght']">El nombre debe tener al menos 4 caracteres.</div>
         </div>
-
 
         <!-- Email -->
         <app-custom-input icon="mail-outline" autocomplete="email" [control]="form.controls.email" type="email" label="correo"></app-custom-input>
@@ -32,12 +28,29 @@
             <div *ngIf="form.controls.telf.errors?.['required']">Ingrese telefono.</div>
             <div *ngIf="form.controls.telf.errors?.['minlenght']">Ingrese un numero valido.</div>
         </div>
+
+        <!-- Sex -->
+        <ion-item class="custom-input">
+            <ion-label>Sexo</ion-label>
+            <ion-select formControlName="sex">
+                <ion-select-option value="Masculino">Masculino</ion-select-option>
+                <ion-select-option value="Femenino">Femenino</ion-select-option>
+            </ion-select>
+        </ion-item>
+
         <!-- Password -->
         <app-custom-input icon="lock-closed-outline" type="password" label="Contraseña" [control]="form.controls.password"></app-custom-input>
         <div class="validators" *ngIf="form.controls.password.errors && form.controls.password.touched">
             <div *ngIf="form.controls.password.errors?.['required']">La contraseña es requerida.</div>
-            <div *ngIf="form.controls.telf.errors?.['minlenght']">Ingresar al menos 6 digitos.</div>
-            <div *ngIf="form.controls.telf.errors?.['pattern']">Ingresar al menos una mayuscula y un caracter especial.</div>
+            <div *ngIf="form.controls.password.errors?.['minlenght']">Ingresar al menos 6 digitos.</div>
+            <div *ngIf="form.controls.password.errors?.['pattern']">Ingresar al menos una mayuscula y un caracter especial.</div>
+        </div>
+
+        <!-- Repeat Password -->
+        <app-custom-input icon="lock-closed-outline" type="password" label="Repetir Contraseña" [control]="form.controls.repeatPassword"></app-custom-input>
+        <div class="validators" *ngIf="form.controls.repeatPassword.errors && form.controls.repeatPassword.touched">
+            <div *ngIf="form.controls.repeatPassword.errors?.['required']">La confirmación de la contraseña es requerida.</div>
+            <div *ngIf="form.errors?.['notSame']">Las contraseñas no coinciden.</div>
         </div>
 
         <!-- Login -->
@@ -45,9 +58,5 @@
             Registrarse
             <ion-icon slot="end" name="person-add-outline"></ion-icon>
         </ion-button>
-
-
     </form>
-
-
 </ion-content>
