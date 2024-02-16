@@ -1,0 +1,51 @@
+<app-header title="Registro"></app-header>
+
+
+
+<ion-content class="ion-padding">
+    <form [formGroup]="form" class="auth-form" (ngSubmit)="submit()" (keypress.enter)="submit()">
+        <!-- Logo -->
+        <app-logo></app-logo>
+
+
+        <!-- Nmae -->
+        <app-custom-input icon="person-outline" autocomplete="name" [control]="form.controls.name" type="text" label="nombre"></app-custom-input>
+
+        <div class="validators" *ngIf="form.controls.name.errors && form.controls.name.touched">
+            <div *ngIf="form.controls.name.errors?.['required']">El correo es requerido.</div>
+            <div *ngIf="form.controls.name.errors?.['minlenght']">El nombre debe tener al menos 4 caracteres.</div>
+        </div>
+
+
+        <!-- Email -->
+        <app-custom-input icon="mail-outline" autocomplete="email" [control]="form.controls.email" type="email" label="correo"></app-custom-input>
+
+        <div class="validators" *ngIf="form.controls.email.errors && form.controls.email.touched">
+            <div *ngIf="form.controls.email.errors?.['required']">El correo es requerido.</div>
+            <div *ngIf="form.controls.email.errors?.['email']">Ingrese un correo valido.</div>
+        </div>
+
+        <!-- Telf -->
+        <app-custom-input icon="call" autocomplete="telf" [control]="form.controls.telf" type="number" label="telf"></app-custom-input>
+
+        <div class="validators" *ngIf="form.controls.telf.errors && form.controls.telf.touched">
+            <div *ngIf="form.controls.telf.errors?.['required']">Ingrese solo numeros.</div>
+            <div *ngIf="form.controls.telf.errors?.['email']">Ingrese un numero valido.</div>
+        </div>
+        <!-- Password -->
+        <app-custom-input icon="lock-closed-outline" type="password" label="Contraseña" [control]="form.controls.password"></app-custom-input>
+        <div class="validators" *ngIf="form.controls.password.errors && form.controls.password.touched">
+            <div *ngIf="form.controls.password.errors?.['required']">La contraseña es requerida.</div>
+        </div>
+
+        <!-- Login -->
+        <ion-button expand="block" mode="ios" class="submit" type="submit" [disabled]="form.invalid">
+            Registrarse
+            <ion-icon slot="end" name="person-add-outline"></ion-icon>
+        </ion-button>
+
+
+    </form>
+
+
+</ion-content>
