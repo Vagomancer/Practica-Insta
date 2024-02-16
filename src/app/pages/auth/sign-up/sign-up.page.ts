@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from 'src/app/models/user.model';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { UtilsService } from 'src/app/services/utils.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-sign-up',
@@ -10,6 +11,8 @@ import { UtilsService } from 'src/app/services/utils.service';
   styleUrls: ['./sign-up.page.scss'],
 })
 export class SignUpPage implements OnInit {
+  countries: any[] = [];
+  http= inject(HttpClient);
   form = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [
@@ -19,6 +22,7 @@ export class SignUpPage implements OnInit {
     ]),
     repeatPassword: new FormControl('', [Validators.required]),
     name: new FormControl('', [Validators.required, Validators.minLength(4)]),
+    country: new FormControl('', [Validators.required]),
     telf: new FormControl('', [Validators.required, Validators.minLength(8)]),
     sex: new FormControl('', [Validators.required]),
   }, { validators: this.passwordsMatch })
@@ -28,6 +32,9 @@ export class SignUpPage implements OnInit {
   utilsSvc = inject(UtilsService);
 
   ngOnInit() {
+    this.http.get('https://restcountries.com/v3.1/all').subscribe((countries: any[]) => {
+      this.countries = countries.map(country => country.name.common);
+    });
   }
 
   passwordsMatch(group: FormGroup) {

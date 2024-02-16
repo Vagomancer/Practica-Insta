@@ -53,6 +53,15 @@
             <div *ngIf="form.errors?.['notSame']">Las contraseñas no coinciden.</div>
         </div>
 
+        <!-- Country -->
+        <ion-item class="custom-input">
+            <ion-label>País</ion-label>
+            <ion-select formControlName="country">
+                <ion-select-option *ngFor="let country of countries" [value]="country">{{country}}</ion-select-option>
+            </ion-select>
+            <div *ngIf="form.controls.country.errors?.['required']">Se debe seleccionar un pais.</div>
+        </ion-item>
+
         <!-- Login -->
         <ion-button expand="block" mode="ios" class="submit" type="submit" [disabled]="form.invalid">
             Registrarse
