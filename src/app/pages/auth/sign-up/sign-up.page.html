@@ -29,13 +29,15 @@
         <app-custom-input icon="call" autocomplete="telf" [control]="form.controls.telf" type="number" label="telf"></app-custom-input>
 
         <div class="validators" *ngIf="form.controls.telf.errors && form.controls.telf.touched">
-            <div *ngIf="form.controls.telf.errors?.['required']">Ingrese solo numeros.</div>
-            <div *ngIf="form.controls.telf.errors?.['email']">Ingrese un numero valido.</div>
+            <div *ngIf="form.controls.telf.errors?.['required']">Ingrese telefono.</div>
+            <div *ngIf="form.controls.telf.errors?.['minlenght']">Ingrese un numero valido.</div>
         </div>
         <!-- Password -->
         <app-custom-input icon="lock-closed-outline" type="password" label="Contraseña" [control]="form.controls.password"></app-custom-input>
         <div class="validators" *ngIf="form.controls.password.errors && form.controls.password.touched">
             <div *ngIf="form.controls.password.errors?.['required']">La contraseña es requerida.</div>
+            <div *ngIf="form.controls.telf.errors?.['minlenght']">Ingresar al menos 6 digitos.</div>
+            <div *ngIf="form.controls.telf.errors?.['pattern']">Ingresar al menos una mayuscula y un caracter especial.</div>
         </div>
 
         <!-- Login -->
