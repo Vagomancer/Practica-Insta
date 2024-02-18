@@ -86,6 +86,7 @@ export class SignUpPage implements OnInit {
 
       let path = `users/${uid}`;
       delete this.form.value.password;
+      delete this.form.value.repeatPassword;
 
       this.firebaseSvc.setDocument(path, this.form.value).then(async res =>{
         this.utilsSvc.saveInLocalStorage('user', this.form.value);
