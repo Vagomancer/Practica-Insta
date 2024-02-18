@@ -6,4 +6,6 @@ export interface User{
     telf: string,
     sex: string,
     country: string,
+    photo?: string,
+    location?: string,
 }

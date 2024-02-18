@@ -6,6 +6,9 @@ import { LoadingController, ModalController, ModalOptions, ToastController, Toas
   providedIn: 'root'
 })
 export class UtilsService {
+ removeFromLocalStorage(arg0: string) {
+   throw new Error('Method not implemented.');
+ }
 
  loadingCtrl = inject(LoadingController);
  toastCtrl = inject(ToastController);

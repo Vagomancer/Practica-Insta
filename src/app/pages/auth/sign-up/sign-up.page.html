@@ -5,6 +5,16 @@
         <!-- Logo -->
         <app-logo></app-logo>
 
+        <!-- Foto de perfil -->
+
+        <div *ngIf="form.controls.photo.value">
+            <img [src]="'data:image/jpeg;base64,' + form.controls.photo.value" alt="Foto de perfil">
+          </div>
+          
+          <ion-button expand="block" mode="ios" class="submit" type="button" (click)="takePicture()">
+            Tomar foto de perfil
+          </ion-button>
+
         <!-- Name -->
         <app-custom-input icon="person-outline" autocomplete="name" [control]="form.controls.name" type="text" label="nombre"></app-custom-input>
 
@@ -20,6 +30,14 @@
             <div *ngIf="form.controls.email.errors?.['required']">El correo es requerido.</div>
             <div *ngIf="form.controls.email.errors?.['email']">Ingrese un correo valido.</div>
         </div>
+        <!-- Mapa -->
+        <div id="map" *ngIf="showMap" style="height: 300px; width: 300px;"></div>
+
+        <!-- Botón para obtener la ubicación -->
+        <ion-button expand="block" mode="ios" class="submit" type="button" (click)="getCurrentLocation()">
+        Obtener ubicación
+        </ion-button>
+
 
         <!-- Telf -->
         <app-custom-input icon="call" autocomplete="telf" [control]="form.controls.telf" type="number" label="telf"></app-custom-input>
@@ -61,6 +79,15 @@
             </ion-select>
             <div *ngIf="form.controls.country.errors?.['required']">Se debe seleccionar un pais.</div>
         </ion-item>
+
+        <!-- Términos y condiciones -->
+        <ion-item>
+            <ion-label>Acepto los términos y condiciones</ion-label>
+            <ion-checkbox formControlName="terms"></ion-checkbox>
+        </ion-item>
+        <ion-button expand="block" mode="ios" class="submit" type="button" (click)="openTermsAndConditions()">
+            Ver términos y condiciones
+        </ion-button>
 
         <!-- Login -->
         <ion-button expand="block" mode="ios" class="submit" type="submit" [disabled]="form.invalid">
