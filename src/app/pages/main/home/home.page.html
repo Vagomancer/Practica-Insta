@@ -67,22 +67,24 @@
         </ion-segment-button>
     </ion-segment>
 
+
+    <ion-grid>
+        <ion-row>
+            <ion-col size="4" *ngFor="let publicacion of publicaciones">
+                <ion-card>
+                    <img [src]="publicacion.imagen" />
+                    <ion-card-content>
+                        <p>Likes: {{publicacion.likes}}</p>
+                        <p> {{publicacion.fecha}}</p>
+                    </ion-card-content>
+                </ion-card>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+
     <div [ngSwitch]="segment">
-        <ion-list *ngSwitchCase="'historias'">
-            <ion-grid>
-                <ion-row>
-                    <ion-col size="4" *ngFor="let publicacion of publicaciones">
-                        <ion-card>
-                            <img [src]="publicacion.imagen" />
-                            <ion-card-content>
-                                <p>Likes: {{publicacion.likes}}</p>
-                                <p> {{publicacion.fecha}}</p>
-                            </ion-card-content>
-                        </ion-card>
-                    </ion-col>
-                </ion-row>
-            </ion-grid>
-        </ion-list>
+
         <ion-list *ngSwitchCase="'Reels'">
             <ion-grid>
                 <ion-row>
