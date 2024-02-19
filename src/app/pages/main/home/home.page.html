@@ -1,27 +1,27 @@
 <ion-header>
     <ion-toolbar>
-      <ion-title>Perfil</ion-title>
-      <ion-buttons slot="end">
-        <ion-button (click)="signOut()">
-          <ion-icon slot="icon-only" name="log-out-outline"></ion-icon>
-        </ion-button>
-      </ion-buttons>
+        <ion-title>Perfil</ion-title>
+        <ion-buttons slot="end">
+            <ion-button (click)="signOut()">
+                <ion-icon slot="icon-only" name="log-out-outline"></ion-icon>
+            </ion-button>
+        </ion-buttons>
     </ion-toolbar>
-  </ion-header>
-  
-  <ion-content>
+</ion-header>
+
+<ion-content>
     <ion-card>
-      <img [src]="'data:image/jpeg;base64,' + user.photo" *ngIf="user.photo"/>
-      <ion-card-header>
-        <ion-card-title>{{ user.name }}</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <p>Email: {{ user.email }}</p>
-        <p>Teléfono: {{ user.telf }}</p>
-        <p>Sexo: {{ user.sex }}</p>
-        <p>País: {{ user.country }}</p>
-      </ion-card-content>
+        <img [src]="'data:image/jpeg;base64,' + user.photo" *ngIf="user.photo" />
+        <ion-card-header>
+            <ion-card-title>{{ user.name }}</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+            <p>Email: {{ user.email }}</p>
+            <p>Teléfono: {{ user.telf }}</p>
+            <p>Sexo: {{ user.sex }}</p>
+            <p>País: {{ user.country }}</p>
+            <p>Ubicacion: {{user.location | json}}</p>
+        </ion-card-content>
     </ion-card>
     <ion-button expand="full" (click)="editProfile()">Editar perfil</ion-button>
-  </ion-content>
-  
+</ion-content>

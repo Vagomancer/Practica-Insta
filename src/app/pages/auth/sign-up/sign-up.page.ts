@@ -9,6 +9,7 @@ import { TermsAndConditions } from 'src/app/shared/components/terms-and-conditio
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera'; // Importa el plugin de la cámara
 import { Geolocation } from '@capacitor/geolocation'; // Importa el plugin de geolocalización
 import * as L from 'leaflet'; // Importa Leaflet
+import { AfterViewInit, ElementRef } from '@angular/core';
 
 @Component({
   selector: 'app-sign-up',
@@ -16,6 +17,7 @@ import * as L from 'leaflet'; // Importa Leaflet
   styleUrls: ['./sign-up.page.scss'],
 })
 export class SignUpPage implements OnInit {
+  mapElement: ElementRef;
   countries: any[] = [];
   showMap = false; // Agrega una nueva variable para controlar cuándo se muestra el mapa
   http= inject(HttpClient);
@@ -30,23 +32,28 @@ export class SignUpPage implements OnInit {
     repeatPassword: new FormControl('', [Validators.required]),
     name: new FormControl('', [Validators.required, Validators.minLength(4)]),
     country: new FormControl('', [Validators.required]),
-    telf: new FormControl('', [Validators.required, Validators.minLength(8)]),
+    telf: new FormControl('', [Validators.required, Validators.maxLength(8), Validators.minLength(8)]),
     sex: new FormControl('', [Validators.required]),
     terms: new FormControl(false, Validators.requiredTrue),
-    photo: new FormControl(''), // Agrega un nuevo campo para la foto de perfil
-    location: new FormControl(''), // Agrega un nuevo campo para la ubicación
+    photo: new FormControl('', [Validators.required]), // Agrega un nuevo campo para la foto de perfil
+    location: new FormControl('', [Validators.required]), // Agrega un nuevo campo para la ubicación
   }, { validators: this.passwordsMatch })
 
   //Services
   firebaseSvc = inject(FirebaseService);
   utilsSvc = inject(UtilsService);
 
-  constructor(private modalCtrl: ModalController) {}
+  constructor(private modalCtrl: ModalController, private el: ElementRef) {}
 
   ngOnInit() {
     this.http.get('https://restcountries.com/v3.1/all').subscribe((countries: any[]) => {
       this.countries = countries.map(country => country.name.common);
     });
+  }
+
+
+  ngAfterViewInit() {
+    this.mapElement = this.el.nativeElement.querySelector('#map');
   }
 
   passwordsMatch(group: FormGroup) {
@@ -67,16 +74,21 @@ export class SignUpPage implements OnInit {
     this.form.controls.photo.setValue(image.base64String);
   }
 
-  async getCurrentLocation() { // Función para obtener la ubicación
+  // Función para obtener la ubicación
+  async getCurrentLocation() { 
     const coordinates = await Geolocation.getCurrentPosition();
     this.form.controls.location.setValue(JSON.stringify(coordinates.coords));
+    this.form.value.location.replace('location', JSON.stringify(coordinates.coords));
     this.showMap = true; // Muestra el mapa después de obtener la ubicación
-    this.showLocationOnMap(coordinates.coords);
+    setTimeout(() => {
+      this.showLocationOnMap(coordinates.coords);
+      console.log(coordinates.coords);
+    });
   }
-
-  showLocationOnMap(coords) { // Función para mostrar la ubicación en el mapa
-    const map = L.map('map').setView([coords.latitude, coords.longitude], 13);
   
+  showLocationOnMap(coords) {
+    const map = L.map('map').setView([coords.latitude, coords.longitude], 13);
+    
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
     }).addTo(map);
@@ -87,8 +99,10 @@ export class SignUpPage implements OnInit {
   
     setTimeout(() => {
       map.invalidateSize();
-    }, 0);
+    }, 1000);
   }
+
+  
   async submit(){
     if(this.form.valid){
       
@@ -127,36 +141,43 @@ export class SignUpPage implements OnInit {
     return await modal.present();
   }
 
-  //Set
-  async setUserInfo(uid:string){
-    if(this.form.valid){
-      
-      const loading = await this.utilsSvc.loading();
-      await loading.present();
+//Set
+async setUserInfo(uid:string){
+  if(this.form.valid){
+    
+    const loading = await this.utilsSvc.loading();
+    await loading.present();
 
-      let path = `users/${uid}`;
-      delete this.form.value.password;
-      delete this.form.value.repeatPassword;
+    let path = `users/${uid}`;
+    delete this.form.value.password;
+    delete this.form.value.repeatPassword;
 
-      this.firebaseSvc.setDocument(path, this.form.value).then(async res =>{
-        this.utilsSvc.saveInLocalStorage('user', this.form.value);
-        this.utilsSvc.routerLink('/main/home');
-        this.form.reset();
-      }).catch(error => {
+        // Parsea la ubicación a JSON antes de guardarla
+    const location = JSON.parse(this.form.value.location);
 
-        console.log(error);
-        // Enviar toast
-        this.utilsSvc.presentToast({
-          message: error.message,
-          duration: 2500,  
-          color: 'primary',
-          position: 'middle',
-          icon: 'alert-circle-outline'
-        })
+    // Agrega la ubicación al objeto que se va a guardar en la base de datos
+    const userData = { ...this.form.value, location };
 
-      }).finally(() =>{
-        loading.dismiss();
+    this.firebaseSvc.setDocument(path, this.form.value).then(async res =>{
+      this.utilsSvc.saveInLocalStorage('user', this.form.value);
+      this.utilsSvc.routerLink('/main/home');
+      this.form.reset();
+    }).catch(error => {
+
+      console.log(error);
+      // Enviar toast
+      this.utilsSvc.presentToast({
+        message: error.message,
+        duration: 2500,  
+        color: 'primary',
+        position: 'middle',
+        icon: 'alert-circle-outline'
       })
-    }
+
+    }).finally(() =>{
+      loading.dismiss();
+    })
   }
+}
+
 }
