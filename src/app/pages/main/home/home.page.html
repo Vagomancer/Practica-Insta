@@ -23,7 +23,7 @@
                 <h2 id="nombreUsuario">{{user.name}}</h2>
             </ion-col>
             <ion-col size="3">
-                <p><strong class="pub" id="publicaciones">0</strong> <br>publicaciones</p>
+                <p><strong class="pub" id="publicaciones">9</strong> <br>publicaciones</p>
             </ion-col>
             <ion-col size="3">
                 <p><strong class="pub" id="seguidores">0</strong> <br>seguidores</p>
@@ -49,27 +49,41 @@
         Editar Perfil
     </ion-button>
 
-    <ion-content>
-        <ion-segment [(ngModel)]="segment">
-            <ion-segment-button value="historias" (click)="destruir()">
-                <ion-label>
-                    <ion-icon slot="icon-only" name="grid-outline" mode="ios"></ion-icon>
-                </ion-label>
-            </ion-segment-button>
-            <ion-segment-button value="Reels" (click)="destruir()">
-                <ion-label>
-                    <ion-icon slot="icon-only" name="images"></ion-icon>
-                </ion-label>
-            </ion-segment-button>
-            <ion-segment-button value="Otros" (click)="destruir()">
-                <ion-label>
-                    <ion-icon slot="icon-only" name="star-outline"></ion-icon>
-                </ion-label>
-            </ion-segment-button>
-        </ion-segment>
 
-        <div [ngSwitch]="segment">
-            <ion-grid *ngIf="hide">
+    <ion-segment [(ngModel)]="segment">
+        <ion-segment-button value="historias" (click)="destruir()">
+            <ion-label>
+                <ion-icon slot="icon-only" name="grid-outline" mode="ios"></ion-icon>
+            </ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="Reels" (click)="destruir()">
+            <ion-label>
+                <ion-icon slot="icon-only" name="images"></ion-icon>
+            </ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="Otros" (click)="destruir()">
+            <ion-label>
+                <ion-icon slot="icon-only" name="star-outline"></ion-icon>
+            </ion-label>
+        </ion-segment-button>
+    </ion-segment>
+
+    <div [ngSwitch]="segment">
+        <ion-grid *ngIf="hide">
+            <ion-row>
+                <ion-col size="4" *ngFor="let publicacion of publicaciones">
+                    <ion-card>
+                        <img class="ion-card-image" [src]="publicacion.imagen" />
+                        <ion-card-content>
+                            <p>Likes: {{publicacion.likes}}</p>
+                            <p> {{publicacion.fecha}}</p>
+                        </ion-card-content>
+                    </ion-card>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+        <ion-list *ngSwitchCase="'historias'">
+            <ion-grid>
                 <ion-row>
                     <ion-col size="4" *ngFor="let publicacion of publicaciones">
                         <ion-card>
@@ -82,39 +96,25 @@
                     </ion-col>
                 </ion-row>
             </ion-grid>
-            <ion-list *ngSwitchCase="'historias'">
-                <ion-grid>
-                    <ion-row>
-                        <ion-col size="4" *ngFor="let publicacion of publicaciones">
-                            <ion-card>
-                                <img class="ion-card-image" [src]="publicacion.imagen" />
-                                <ion-card-content>
-                                    <p>Likes: {{publicacion.likes}}</p>
-                                    <p> {{publicacion.fecha}}</p>
-                                </ion-card-content>
-                            </ion-card>
-                        </ion-col>
-                    </ion-row>
-                </ion-grid>
-            </ion-list>
-            <ion-list *ngSwitchCase="'Reels'">
-                <ion-grid>
-                    <ion-row>
-                        <ion-col size="4" *ngFor="let publicacion of publicaciones">
-                            <ion-card>
-                                <img class="ion-card-image" [src]="publicacion.imagen" />
-                            </ion-card>
-                        </ion-col>
-                    </ion-row>
-                </ion-grid>
-            </ion-list>
-            <ion-list *ngSwitchCase="'Otros'">
-                <!-- Aquí puedes agregar la lista de usuarios seguidos por el usuario -->
-            </ion-list>
+        </ion-list>
+        <ion-list *ngSwitchCase="'Reels'">
+            <ion-grid>
+                <ion-row>
+                    <ion-col size="4" *ngFor="let publicacion of publicaciones">
+                        <ion-card>
+                            <img class="ion-card-image" [src]="publicacion.imagen" />
+                        </ion-card>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </ion-list>
+        <ion-list *ngSwitchCase="'Otros'">
+            <img [src]="'data:image/jpeg;base64,' + user.photo" *ngIf="user.photo" alt="Foto de perfil" />
+        </ion-list>
 
 
-        </div>
-    </ion-content>
+    </div>
+
 
 
 
