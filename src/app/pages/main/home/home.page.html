@@ -51,13 +51,19 @@
 
     <ion-segment [(ngModel)]="segment">
         <ion-segment-button value="historias">
-            <ion-label>Historias</ion-label>
+            <ion-label>
+                <ion-icon slot="icon-only" name="grid-outline" mode="ios"></ion-icon>
+            </ion-label>
         </ion-segment-button>
         <ion-segment-button value="Reels">
-            <ion-label>Reels</ion-label>
+            <ion-label>
+                <ion-icon slot="icon-only" name="images"></ion-icon>
+            </ion-label>
         </ion-segment-button>
         <ion-segment-button value="Otros">
-            <ion-label>Otros</ion-label>
+            <ion-label>
+                <ion-icon slot="icon-only" name="star-outline"></ion-icon>
+            </ion-label>
         </ion-segment-button>
     </ion-segment>
 
