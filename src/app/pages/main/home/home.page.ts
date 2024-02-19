@@ -15,6 +15,7 @@ export class HomePage implements OnInit {
   user: User;
   segment: string;
   publicaciones = [];
+  hide:boolean = true;
   
 
   constructor(private firebaseSvc: FirebaseService, private utilsSvc: UtilsService, private imageService: ImageService) {
@@ -42,4 +43,7 @@ export class HomePage implements OnInit {
     this.firebaseSvc.signOut();
   }
 
+  destruir(){
+    this.hide = false;
+  }
 }
