@@ -32,7 +32,7 @@
                                 "output": "./svg"
                             }
                         ],
-                        "styles": ["src/theme/variables.scss", "src/global.scss", "node_modules/leaflet/dist/leaflet.css", "src/styles.css",
+                        "styles": ["src/theme/variables.scss", "src/global.scss", "node_modules/leaflet/dist/leaflet.css",
                             "node_modules/leaflet/dist/leaflet.css"
                         ],
                         "scripts": []
@@ -110,7 +110,7 @@
                                 "output": "./svg"
                             }
                         ],
-                        "styles": ["src/theme/variables.scss", "src/global.scss", "node_modules/leaflet/dist/leaflet.css"],
+                        "styles": ["src/theme/variables.scss", "src/global.scss", "node_modules/leaflet/dist/leaflet.css",  "node_modules/leaflet/dist/leaflet.css"],
                         "scripts": []
                     },
                     "configurations": {

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, AfterViewInit, ElementRef } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from 'src/app/models/user.model';
 import { FirebaseService } from 'src/app/services/firebase.service';
@@ -9,14 +9,13 @@ import { TermsAndConditions } from 'src/app/shared/components/terms-and-conditio
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera'; // Importa el plugin de la cámara
 import { Geolocation } from '@capacitor/geolocation'; // Importa el plugin de geolocalización
 import * as L from 'leaflet'; // Importa Leaflet
-import { AfterViewInit, ElementRef } from '@angular/core';
 
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.page.html',
   styleUrls: ['./sign-up.page.scss'],
 })
-export class SignUpPage implements OnInit {
+export class SignUpPage implements OnInit, AfterViewInit {
   mapElement: ElementRef;
   countries: any[] = [];
   showMap = false; // Agrega una nueva variable para controlar cuándo se muestra el mapa
@@ -51,7 +50,6 @@ export class SignUpPage implements OnInit {
     });
   }
 
-
   ngAfterViewInit() {
     this.mapElement = this.el.nativeElement.querySelector('#map');
   }
@@ -78,7 +76,6 @@ export class SignUpPage implements OnInit {
   async getCurrentLocation() { 
     const coordinates = await Geolocation.getCurrentPosition();
     this.form.controls.location.setValue(JSON.stringify(coordinates.coords));
-    this.form.value.location.replace('location', JSON.stringify(coordinates.coords));
     this.showMap = true; // Muestra el mapa después de obtener la ubicación
     setTimeout(() => {
       this.showLocationOnMap(coordinates.coords);
@@ -102,7 +99,6 @@ export class SignUpPage implements OnInit {
     }, 1000);
   }
 
-  
   async submit(){
     if(this.form.valid){
       
@@ -141,43 +137,41 @@ export class SignUpPage implements OnInit {
     return await modal.present();
   }
 
-//Set
-async setUserInfo(uid:string){
-  if(this.form.valid){
-    
-    const loading = await this.utilsSvc.loading();
-    await loading.present();
+  async setUserInfo(uid:string){
+    if(this.form.valid){
+      
+      const loading = await this.utilsSvc.loading();
+      await loading.present();
 
-    let path = `users/${uid}`;
-    delete this.form.value.password;
-    delete this.form.value.repeatPassword;
+      let path = `users/${uid}`;
+      delete this.form.value.password;
+      delete this.form.value.repeatPassword;
 
-        // Parsea la ubicación a JSON antes de guardarla
-    const location = JSON.parse(this.form.value.location);
+      // Parsea la ubicación a JSON antes de guardarla
+      const location = JSON.parse(this.form.value.location);
 
-    // Agrega la ubicación al objeto que se va a guardar en la base de datos
-    const userData = { ...this.form.value, location };
+      // Agrega la ubicación al objeto que se va a guardar en la base de datos
+      const userData = { ...this.form.value, location };
 
-    this.firebaseSvc.setDocument(path, this.form.value).then(async res =>{
-      this.utilsSvc.saveInLocalStorage('user', this.form.value);
-      this.utilsSvc.routerLink('/main/home');
-      this.form.reset();
-    }).catch(error => {
+      this.firebaseSvc.setDocument(path, userData).then(async res =>{
+        this.utilsSvc.saveInLocalStorage('user', userData);
+        this.utilsSvc.routerLink('/main/home');
+        this.form.reset();
+      }).catch(error => {
 
-      console.log(error);
-      // Enviar toast
-      this.utilsSvc.presentToast({
-        message: error.message,
-        duration: 2500,  
-        color: 'primary',
-        position: 'middle',
-        icon: 'alert-circle-outline'
+        console.log(error);
+        // Enviar toast
+        this.utilsSvc.presentToast({
+          message: error.message,
+          duration: 2500,  
+          color: 'primary',
+          position: 'middle',
+          icon: 'alert-circle-outline'
+        })
+
+      }).finally(() =>{
+        loading.dismiss();
       })
-
-    }).finally(() =>{
-      loading.dismiss();
-    })
+    }
   }
-}
-
 }
