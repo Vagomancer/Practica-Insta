@@ -1,0 +1,48 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+.perfil-foto {
+    position: relative;
+}
+
+#fotoPerfil {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+
+.perfil-foto ion-icon {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+.publicaciones {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+p {
+    text-align: center;
+}
+
+.desc {
+    text-align: left;
+    margin: 0;
+    background-color: rgba(188, 203, 240, 0.018);
+}
+
+.publicaciones img {
+    width: 100%;
+    padding-bottom: 100%;
+    object-fit: cover;
+}
+
+ion-card img {
+    height: auto;
+    width: auto;
+}

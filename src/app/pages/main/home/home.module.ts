@@ -8,6 +8,7 @@ import { HomePageRoutingModule } from './home-routing.module';
 
 import { HomePage } from './home.page';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { ImageService } from 'src/app/services/image.service';
 
 @NgModule({
   imports: [
@@ -15,8 +16,9 @@ import { SharedModule } from 'src/app/shared/shared.module';
     FormsModule,
     IonicModule,
     HomePageRoutingModule,
-    SharedModule
+    SharedModule,
   ],
+  providers: [ImageService],
   declarations: [HomePage]
 })
 export class HomePageModule {}

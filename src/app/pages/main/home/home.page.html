@@ -9,19 +9,91 @@
     </ion-toolbar>
 </ion-header>
 
+
+
+
 <ion-content>
-    <ion-card>
-        <img [src]="'data:image/jpeg;base64,' + user.photo" *ngIf="user.photo" />
-        <ion-card-header>
-            <ion-card-title>{{ user.name }}</ion-card-title>
-        </ion-card-header>
-        <ion-card-content>
-            <p>Email: {{ user.email }}</p>
-            <p>Teléfono: {{ user.telf }}</p>
-            <p>Sexo: {{ user.sex }}</p>
-            <p>País: {{ user.country }}</p>
-            <p>Ubicacion: {{user.location | json}}</p>
-        </ion-card-content>
-    </ion-card>
-    <ion-button expand="full" (click)="editProfile()">Editar perfil</ion-button>
+    <ion-grid>
+        <ion-row>
+            <ion-col size="3">
+                <div class="perfil-foto">
+                    <img [src]="'data:image/jpeg;base64,' + user.photo" *ngIf="user.photo" alt="Foto de perfil" id="fotoPerfil" />
+                    <ion-icon name="add-circle-outline"></ion-icon>
+                </div>
+                <h2 id="nombreUsuario">{{user.name}}</h2>
+            </ion-col>
+            <ion-col size="3">
+                <p><strong class="pub" id="publicaciones">0</strong> <br>publicaciones</p>
+            </ion-col>
+            <ion-col size="3">
+                <p><strong class="pub" id="seguidores">0</strong> <br>seguidores</p>
+            </ion-col>
+            <ion-col size="3">
+                <p><strong class="pub" id="seguidos">0</strong> <br>seguidos</p>
+            </ion-col>
+        </ion-row>
+        <div class="ion-padding desc">
+            <p class="desc"><strong>País: {{user.country}}</strong></p><br>
+            <p class="desc"><strong>Sexo: {{user.sex}}</strong></p><br>
+            <p class="desc"><strong>Teléfono: {{user.telf}}</strong></p><br>
+            <p class="desc"><strong>Email: {{user.email}}</strong></p><br>
+            <p class="desc"><strong>Ubicación: {{user.location}}</strong></p><br>
+        </div>
+
+
+
+
+
+    </ion-grid>
+    <ion-button (click)="editProfile()" expand="block" fill="outline" shape="round">
+        Editar Perfil
+    </ion-button>
+
+    <ion-segment [(ngModel)]="segment">
+        <ion-segment-button value="historias">
+            <ion-label>Historias</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="Reels">
+            <ion-label>Reels</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="Otros">
+            <ion-label>Otros</ion-label>
+        </ion-segment-button>
+    </ion-segment>
+
+    <div [ngSwitch]="segment">
+        <ion-list *ngSwitchCase="'historias'">
+            <ion-grid>
+                <ion-row>
+                    <ion-col size="4" *ngFor="let publicacion of publicaciones">
+                        <ion-card>
+                            <img [src]="publicacion.imagen" />
+                            <ion-card-content>
+                                <p>Likes: {{publicacion.likes}}</p>
+                                <p> {{publicacion.fecha}}</p>
+                            </ion-card-content>
+                        </ion-card>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </ion-list>
+        <ion-list *ngSwitchCase="'Reels'">
+            <ion-grid>
+                <ion-row>
+                    <ion-col size="4" *ngFor="let publicacion of publicaciones">
+                        <ion-card>
+                            <img [src]="publicacion.imagen" />
+                        </ion-card>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </ion-list>
+        <ion-list *ngSwitchCase="'Otros'">
+            <!-- Aquí puedes agregar la lista de usuarios seguidos por el usuario -->
+        </ion-list>
+    </div>
+
+
+
+
 </ion-content>

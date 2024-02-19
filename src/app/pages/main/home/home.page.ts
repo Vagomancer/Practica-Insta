@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { User } from 'src/app/models/user.model';
 import { FirebaseService } from 'src/app/services/firebase.service';
+import { ImageService } from 'src/app/services/image.service';
 import { UtilsService } from 'src/app/services/utils.service';
+
 
 @Component({
   selector: 'app-home',
@@ -10,8 +13,20 @@ import { UtilsService } from 'src/app/services/utils.service';
 })
 export class HomePage implements OnInit {
   user: User;
+  segment: string;
+  publicaciones = [];
+  
 
-  constructor(private firebaseSvc: FirebaseService, private utilsSvc: UtilsService) {}
+  constructor(private firebaseSvc: FirebaseService, private utilsSvc: UtilsService, private imageService: ImageService) {
+    this.imageService.getImages().subscribe((images: any[]) => {
+      console.log(images);
+      this.publicaciones = images.map(image => ({
+        imagen: image.urls.small_s3,
+        likes: image.likes,
+        fecha: image.updated_at,
+      }));
+    });
+  }
 
   ngOnInit() {
     this.user = this.utilsSvc.getFromLocalStorage('user');
