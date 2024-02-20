@@ -16,6 +16,7 @@ export class HomePage implements OnInit {
   segment: string;
   publicaciones = [];
   hide:boolean = true;
+  email: string;
   
 
   constructor(private firebaseSvc: FirebaseService, private utilsSvc: UtilsService, private imageService: ImageService) {
@@ -27,11 +28,17 @@ export class HomePage implements OnInit {
         fecha: image.updated_at,
       }));
     });
+
+   
   }
 
   ngOnInit() {
     this.user = this.utilsSvc.getFromLocalStorage('user');
+    this.email = this.user.email;
+   
+     
   }
+
 
   editProfile() {
     // Navega a la página de edición de perfil
@@ -46,4 +53,6 @@ export class HomePage implements OnInit {
   destruir(){
     this.hide = false;
   }
+
+ 
 }

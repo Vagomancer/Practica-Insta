@@ -1,56 +1,79 @@
 <ion-header>
     <ion-toolbar>
-      <ion-title>Editar Perfil</ion-title>
+        <ion-title>Editar Perfil</ion-title>
     </ion-toolbar>
-  </ion-header>
-  
-  <ion-content>
-    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
-  
-      <!-- Foto de perfil -->
-      <ion-item>
-        <ion-label>Foto de perfil</ion-label>
-        <img [src]="'data:image/jpeg;base64,' + profileForm.controls['photo'].value" *ngIf="profileForm.controls['photo'].value" alt="Foto de perfil" />
-        <ion-button expand="block" mode="ios" class="submit" type="button" (click)="takePicture()">Actualizar foto de perfil</ion-button>
-      </ion-item>
-  
-      <!-- Datos de contacto -->
-      <ion-item>
-        <ion-label>Email</ion-label>
-        <ion-input formControlName="email" type="email"></ion-input>
-      </ion-item>
-  
-      <ion-item>
-        <ion-label>Teléfono</ion-label>
-        <ion-input formControlName="telf" type="tel"></ion-input>
-      </ion-item>
-  
-      <!-- Datos demográficos -->
-      <ion-item>
-        <ion-label>Nombre</ion-label>
-        <ion-input formControlName="name" type="text"></ion-input>
-      </ion-item>
-  
-      <ion-item>
-        <ion-label>Sexo</ion-label>
-        <ion-select formControlName="sex">
-          <ion-select-option value="Masculino">Masculino</ion-select-option>
-          <ion-select-option value="Femenino">Femenino</ion-select-option>
-        </ion-select>
-      </ion-item>
-  
-      <ion-item>
-        <ion-label>País</ion-label>
-        <ion-input formControlName="country" type="text"></ion-input>
-      </ion-item>
-  
-      <!-- Botón de envío -->
-      <ion-button expand="full" type="submit" [disabled]="!profileForm.valid">Guardar cambios</ion-button>
-  
+</ion-header>
+
+<ion-content class="ion-padding">
+    <form [formGroup]="form" class="auth-form" (ngSubmit)="onSubmit()" (keypress.enter)="onSubmit()">
+
+
+        <!-- Foto de perfil -->
+
+        <div *ngIf="form.controls['photo'].value">
+            <img [src]="'data:image/jpeg;base64,' + form.controls['photo'].value" alt="Foto de perfil">
+        </div>
+
+        <ion-button expand="block" mode="ios" class="submit" type="button" (click)="takePicture()">
+            Tomar foto de perfil
+        </ion-button>
+
+        <!-- Name -->
+        <ion-item>
+            <ion-label>Nombre</ion-label>
+            <ion-input formControlName="name" type="text"></ion-input>
+        </ion-item>
+        <div class="validators" *ngIf="form.controls['name'].errors && form.controls['name'].touched">
+            <div *ngIf="form.controls['name'].errors?.['required']">El correo es requerido.</div>
+            <div *ngIf="form.controls['name'].errors?.['minlenght']">El nombre debe tener al menos 4 caracteres.</div>
+        </div>
+
+
+        <!-- Mapa -->
+        <div id="map" *ngIf="showMap" style="height: 300px; width: 300px;"></div>
+
+        <!-- Botón para obtener la ubicación -->
+        <ion-button expand="block" mode="ios" class="submit" type="button" (click)="getCurrentLocation()">
+            Obtener ubicación
+        </ion-button>
+
+
+        <!-- Telf -->
+        <ion-item>
+            <ion-label>Teléfono</ion-label>
+            <ion-input formControlName="telf" type="tel"></ion-input>
+        </ion-item>
+
+        <div class="validators" *ngIf="form.controls['telf'].errors && form.controls['telf'].touched">
+            <div *ngIf="form.controls['telf'].errors?.['required']">Ingrese telefono.</div>
+            <div *ngIf="form.controls['telf'].errors?.['maxlenght' && 'minLenght']">Ingrese un numero valido.</div>
+        </div>
+
+
+
+        <!-- Sex -->
+        <ion-item class="custom-input">
+            <ion-label>Sexo</ion-label>
+            <ion-select formControlName="sex">
+                <ion-select-option value="Masculino">Masculino</ion-select-option>
+                <ion-select-option value="Femenino">Femenino</ion-select-option>
+            </ion-select>
+        </ion-item>
+
+        <!-- Country -->
+        <ion-item class="custom-input">
+            <ion-label>País</ion-label>
+            <ion-select formControlName="country">
+                <ion-select-option *ngFor="let country of countries" [value]="country">{{country}}</ion-select-option>
+            </ion-select>
+            <div *ngIf="form.controls['country'].errors?.['required']">Se debe seleccionar un pais.</div>
+        </ion-item>
+
+
+        <!-- Save changes -->
+        <ion-button expand="block" mode="ios" class="submit" type="submit" [disabled]="!form.valid">
+            Guardar Cambios
+            <ion-icon slot="end" name="person-add-outline"></ion-icon>
+        </ion-button>
     </form>
-  
-    <!-- Botón de cierre de sesión -->
-    <ion-button expand="full" color="danger" (click)="signOut()">Cerrar sesión</ion-button>
-  
-  </ion-content>
-  
+</ion-content>

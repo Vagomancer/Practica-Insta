@@ -36,7 +36,7 @@
             <p class="desc"><strong>País: {{user.country}}</strong></p><br>
             <p class="desc"><strong>Sexo: {{user.sex}}</strong></p><br>
             <p class="desc"><strong>Teléfono: {{user.telf}}</strong></p><br>
-            <p class="desc"><strong>Email: {{user.email}}</strong></p><br>
+            <p class="desc"><strong>Email: {{email}}</strong></p><br>
             <p class="desc"><strong>Ubicación: {{user.location}}</strong></p><br>
         </div>
 
@@ -75,7 +75,8 @@
                     <ion-card>
                         <img class="ion-card-image" [src]="publicacion.imagen" />
                         <ion-card-content>
-                            <p>Likes: {{publicacion.likes}}</p>
+                            <p>
+                                <ion-icon color="danger" slot="icon-only" name="heart"></ion-icon> {{publicacion.likes}}</p>
                             <p> {{publicacion.fecha}}</p>
                         </ion-card-content>
                     </ion-card>

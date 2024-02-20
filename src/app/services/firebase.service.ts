@@ -56,4 +56,5 @@ export class FirebaseService {
      return (await getDoc(doc(getFirestore(), path))).data();
   }
 
+
 }

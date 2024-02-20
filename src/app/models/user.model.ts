@@ -7,5 +7,5 @@ export interface User{
     sex: string,
     country: string,
     photo: string,
-    location: {};
+    location: string;
 }
