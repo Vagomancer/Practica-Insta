@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "701100172056",
+    "project_id": "practica-insta-4991a",
+    "storage_bucket": "practica-insta-4991a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:701100172056:android:feaae4bd4ea189c37a346d",
+        "android_client_info": {
+          "package_name": "com.insta.practica"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCthp06nmGcZgF9z7u_TDj3vPLeVV1_unM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
