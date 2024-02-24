@@ -13,7 +13,7 @@ export class AppComponent {
     private fcm: FcmService
   ) {
     this.platform.ready().then(() => {
-      this.fcm.initPush();
+      this.fcm.initPush(); 
     }).catch(e => {
       console.log('error fcm: ', e);
     });
