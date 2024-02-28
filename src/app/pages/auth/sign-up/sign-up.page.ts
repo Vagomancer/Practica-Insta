@@ -9,6 +9,7 @@ import { TermsAndConditions } from 'src/app/shared/components/terms-and-conditio
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera'; // Importa el plugin de la cámara
 import { Geolocation } from '@capacitor/geolocation'; // Importa el plugin de geolocalización
 import * as L from 'leaflet'; // Importa Leaflet
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sign-up',
@@ -41,6 +42,7 @@ export class SignUpPage implements OnInit, AfterViewInit {
   //Services
   firebaseSvc = inject(FirebaseService);
   utilsSvc = inject(UtilsService);
+  router = inject(Router)
 
   constructor(private modalCtrl: ModalController, private el: ElementRef) {}
 
@@ -98,8 +100,9 @@ export class SignUpPage implements OnInit, AfterViewInit {
       map.invalidateSize();
     }, 1000);
   }
-
+  
   async submit(){
+   
     if(this.form.valid){
       
       const loading = await this.utilsSvc.loading();
@@ -111,6 +114,10 @@ export class SignUpPage implements OnInit, AfterViewInit {
         let uid = res.user.uid;
         this.form.controls.uid.setValue(uid);
         this.setUserInfo(uid);
+
+        // Obtener las coordenadas antes de navegar a la página de inicio
+        const coordinates = await Geolocation.getCurrentPosition();
+        this.router.navigate(['/main/home'], { state: { coordinates: coordinates.coords } });
 
       }).catch(error => {
 
@@ -129,6 +136,8 @@ export class SignUpPage implements OnInit, AfterViewInit {
       })
     }
   }
+
+  
 
   async openTermsAndConditions() {
     const modal = await this.modalCtrl.create({

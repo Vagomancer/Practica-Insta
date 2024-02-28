@@ -13,6 +13,7 @@ import { environment } from 'src/environments/environment';
 import { HttpClientModule } from '@angular/common/http';
 import { TermsAndConditions } from './shared/components/terms-and-conditions/terms-and-conditions.component';
 
+
 @NgModule({
   declarations: [AppComponent,TermsAndConditions],
   imports: [IonicModule,BrowserModule, IonicModule.forRoot({mode: 'md'}), AppRoutingModule, AngularFireModule.initializeApp(environment.firebaseConfig), HttpClientModule],

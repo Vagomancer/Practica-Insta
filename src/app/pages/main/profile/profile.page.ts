@@ -46,11 +46,13 @@ export class ProfilePage implements OnInit {
     this.http.get('https://restcountries.com/v3.1/all').subscribe((countries: any[]) => {
       this.countries = countries.map(country => country.name.common);
     });
-
+  
     this.user = this.utilsSvc.getFromLocalStorage('user');
     this.uID = this.user.uid;
     this.form.patchValue(this.user);
+  
   }
+  
 
   ngAfterViewInit() {
     this.mapElement = this.el.nativeElement.querySelector('#map');
@@ -74,7 +76,8 @@ export class ProfilePage implements OnInit {
     this.form.controls['photo'].setValue(image.base64String);
   }
 
-  // Función para obtener la ubicación
+
+  // Obtener ubicacon almacenada
   async getCurrentLocation() { 
     const coordinates = await Geolocation.getCurrentPosition();
     this.form.controls['location'].setValue(JSON.stringify(coordinates.coords));
@@ -107,6 +110,7 @@ export class ProfilePage implements OnInit {
       const updatedUser = { ...this.user, ...this.form.value };
       this.firebaseSvc.setDocument(`users/${this.user.uid}`, updatedUser);
       this.utilsSvc.saveInLocalStorage('user', updatedUser);
+      
       this.utilsSvc.presentToast({
         message: 'Perfil actualizado exitosamente',
         duration: 2000,

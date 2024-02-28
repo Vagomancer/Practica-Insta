@@ -1,3 +1,5 @@
+
+
 export interface User{
     uid: string,
     email: string,
@@ -7,5 +9,5 @@ export interface User{
     sex: string,
     country: string,
     photo: string,
-    location: string;
+    location: {};
 }

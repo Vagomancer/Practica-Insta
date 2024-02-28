@@ -4,6 +4,7 @@ import { User } from 'src/app/models/user.model';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { ImageService } from 'src/app/services/image.service';
 import { UtilsService } from 'src/app/services/utils.service';
+import * as L from 'leaflet'; // Importa Leaflet
 
 
 @Component({
@@ -17,6 +18,8 @@ export class HomePage implements OnInit {
   publicaciones = [];
   hide:boolean = true;
   email: string;
+  mostrar: boolean = false;
+
   
 
   constructor(private firebaseSvc: FirebaseService, private utilsSvc: UtilsService, private imageService: ImageService) {
@@ -35,9 +38,34 @@ export class HomePage implements OnInit {
   ngOnInit() {
     this.user = this.utilsSvc.getFromLocalStorage('user');
     this.email = this.user.email;
-   
-     
+  
+    const coordinates = history.state.coordinates;
+    if (coordinates) {
+      this.showLocationOnMap(coordinates);
+    }
   }
+  
+
+  // Ubicacion 
+  // Obtener ubicacon almacenada
+  showLocationOnMap(coords) {
+    const map = L.map('map').setView([coords.latitude, coords.longitude], 13);
+    console.log(coords.latitude, coords.longitude);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+    }).addTo(map);
+
+    L.marker([coords.latitude, coords.longitude]).addTo(map)
+      .bindPopup('Tu ubicación actual')
+      .openPopup();
+
+    setTimeout(() => {
+      map.invalidateSize();
+    }, 1000);
+  }
+
+
 
 
   editProfile() {
@@ -54,5 +82,5 @@ export class HomePage implements OnInit {
     this.hide = false;
   }
 
- 
 }
+
