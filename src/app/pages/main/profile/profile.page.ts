@@ -124,7 +124,7 @@ export class ProfilePage implements OnInit {
         position: 'middle',
         icon: 'person-circle-outline'
       })
-      this.signOut();
+      // this.signOut();
     }
   }
   //Cerrar sesion en el home

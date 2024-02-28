@@ -22,6 +22,9 @@ export class HomePage implements OnInit {
   email: string;
   mostrar: boolean = false;
 
+  ionViewWillLeave(){
+   history.go(0);
+  }
   
 
   constructor(private firebaseSvc: FirebaseService, private utilsSvc: UtilsService, private imageService: ImageService, private navCtrl: NavController, private router:Router) {
