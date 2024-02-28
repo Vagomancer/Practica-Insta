@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">practica-instagram</string>
+    <string name="title_activity_main">practica-instagram</string>
+    <string name="package_name">com.insta.practica</string>
+    <string name="custom_url_scheme">com.insta.practica</string>
+</resources>
