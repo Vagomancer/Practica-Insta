@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, window } from 'rxjs';
 import { User } from 'src/app/models/user.model';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { ImageService } from 'src/app/services/image.service';
 import { UtilsService } from 'src/app/services/utils.service';
 import * as L from 'leaflet'; // Importa Leaflet
+import { NavController } from '@ionic/angular';
+import { Router} from '@angular/router';
 
 
 @Component({
@@ -22,19 +24,19 @@ export class HomePage implements OnInit {
 
   
 
-  constructor(private firebaseSvc: FirebaseService, private utilsSvc: UtilsService, private imageService: ImageService) {
+  constructor(private firebaseSvc: FirebaseService, private utilsSvc: UtilsService, private imageService: ImageService, private navCtrl: NavController, private router:Router) {
     this.imageService.getImages().subscribe((images: any[]) => {
       console.log(images);
+      history.go(0);//Recargar page
       this.publicaciones = images.map(image => ({
         imagen: image.urls.small_s3,
         likes: image.likes,
         fecha: image.updated_at,
       }));
     });
-
-   
   }
 
+ 
   ngOnInit() {
     this.user = this.utilsSvc.getFromLocalStorage('user');
     this.email = this.user.email;
@@ -43,6 +45,7 @@ export class HomePage implements OnInit {
     if (coordinates) {
       this.showLocationOnMap(coordinates);
     }
+    
   }
   
 
